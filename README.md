@@ -1,24 +1,15 @@
-# events-app
+# Seleção Vagalume
 
-## Project setup
-```
-yarn install
-```
+## Framework
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+    Utilizado a framework Vue.js na versão 3, com o propósito de aprendizado, dado que nunca tinha mexido com a framework.
 
-### Compiles and minifies for production
-```
-yarn build
-```
+### Para testar em localhost
 
-### Lints and fixes files
 ```
-yarn lint
+yarn install && yarn serve
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
