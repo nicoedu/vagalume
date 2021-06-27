@@ -1,81 +1,63 @@
 <template>
-  <div>
-    <Sidebar />
-    <div class="home" :style="{ 'margin-left': sidebarWidth }">
-      <div class="wrapper">
-        <div class="content">
-          <h1>Visão Geral</h1>
-          <div class="list">
-            <div>Title sorter</div>
-            <div v-for="client in clients" :key="client.id">
-              <div class="client-card" @click="toClient(client)">
-                <p class="client-title">
-                  {{ client.name }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <Container :name="name">
+    <h4 class="title">Acesso à Rede Wi-Fi</h4>
+    <div v-if="!graphData" class="loader-wrapper">
+      <Loader />
     </div>
-  </div>
+    <div v-else class="graph-wrapper">
+      <Chart :chartdata="graphData" />
+    </div>
+  </Container>
 </template>
 
 <script>
-import Sidebar from "../components/sidebar/Sidebar.vue";
-import { sidebarWidth } from "../components/sidebar/state";
-import Api from "../api/handler";
-import { defineComponent } from "vue";
+import Container from '../components/Container.vue';
+import Chart from '../components/Chart.vue';
+import Loader from '../components/Loader.vue';
+import Api from '../api/handler';
+import { defineComponent } from 'vue';
 export default defineComponent({
-  name: "Client",
-  components: { Sidebar },
+  name: 'Client',
+  components: { Container, Chart, Loader },
   data() {
-    return { clients: [] };
-  },
-  methods: {
-    toClient(client) {
-      this.$router.push(`/client/${client.id}`);
-    }
+    return { graphData: null, name: '' };
   },
   mounted() {
+    this.name = this.$route.query.name;
     Api()
-      .get("/get_clients")
+      .get(`/get_client_data/${this.$route.params.id}`)
       .then(response => {
-        console.log(response.data);
-        this.clients = response.data.clients;
+        this.graphData = {
+          labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+          datasets: [
+            {
+              data: response.data.data,
+              fill: true,
+              borderColor: '#fc9603',
+              tension: 0.1
+            }
+          ]
+        };
       });
-  },
-  setup() {
-    return { sidebarWidth };
   }
 });
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-  background-color: white;
-  box-shadow: -1px 1px 5px 1px rgba(125, 125, 125, 1);
-}
-.home {
-  padding: 2rem;
-}
-.content {
-  padding: 1rem 0;
-  text-align: left;
-  h1 {
-    padding-left: 1.5rem;
-  }
-}
-.client-card {
-  cursor: pointer;
+.company-title {
+  text-align: center;
   margin: 0;
-  padding-left: 1.5rem;
-  border-top-width: 1px;
-  border-top: 1px solid #c7c7c7;
-
-  .client-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
+}
+.title {
+  text-align: center;
+}
+.loader-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.graph-wrapper {
+  padding: 0 2rem;
+  height: 400px;
 }
 </style>

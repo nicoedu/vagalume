@@ -1,69 +1,82 @@
 <template>
-  <div>
-    <Sidebar />
-    <div class="home" :style="{ 'margin-left': sidebarWidth }">
-      <div class="wrapper">
-        <div class="content">
-          <h1>Visão Geral</h1>
-          <div class="list">
-            <div>Title sorter</div>
-            <div v-for="client in clients" :key="client.id">
-              <div class="client-card" @click="toClient(client)">
-                <p class="client-title">
-                  {{ client.name }}
-                </p>
-              </div>
-            </div>
+  <Container>
+    <h1 class="title">Visão Geral</h1>
+    <div class="list">
+      <div class="list-header" @click="sort">
+        <p>Nome</p>
+        <span :class="{ 'rotate-180': order }">
+          <i class="fas fa-arrow-down" />
+        </span>
+      </div>
+      <div v-if="clients.length === 0" class="loader-wrapper">
+        <Loader />
+      </div>
+      <div v-else>
+        <div v-for="client in clients" :key="client.id">
+          <div class="client-card" @click="toClient(client)">
+            <p class="client-title">
+              {{ client.name }}
+            </p>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </Container>
 </template>
 
 <script>
-import Sidebar from "../components/sidebar/Sidebar.vue";
-import { sidebarWidth } from "../components/sidebar/state";
-import Api from "../api/handler";
-import { defineComponent } from "vue";
+import Container from '../components/Container.vue';
+import Loader from '../components/Loader.vue';
+import Api from '../api/handler';
+import { defineComponent } from 'vue';
 export default defineComponent({
-  name: "Home",
-  components: { Sidebar },
+  name: 'Home',
+  components: { Container, Loader },
   data() {
-    return { clients: [] };
+    return { clients: [], order: false };
   },
   methods: {
     toClient(client) {
-      this.$router.push(`/client/${client.id}`);
+      this.$router.push({
+        path: `/client/${client.id}`,
+        query: { name: client.name }
+      });
+    },
+    sort() {
+      this.order = !this.order;
+      this.clients.sort((a, b) =>
+        a.name > b.name ? (this.order ? -1 : 1) : this.order ? 1 : -1
+      );
     }
   },
   mounted() {
     Api()
-      .get("/get_clients")
+      .get('/get_clients')
       .then(response => {
-        console.log(response.data);
         this.clients = response.data.clients;
       });
-  },
-  setup() {
-    return { sidebarWidth };
   }
 });
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-  background-color: white;
-  box-shadow: -1px 1px 5px 1px rgba(125, 125, 125, 1);
+.title {
+  padding-left: 1.5rem;
 }
-.home {
-  padding: 2rem;
+.loader-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.content {
-  padding: 1rem 0;
-  text-align: left;
-  h1 {
-    padding-left: 1.5rem;
+.list-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  p {
+    padding-right: 1rem;
   }
 }
 .client-card {
@@ -77,5 +90,9 @@ export default defineComponent({
     font-size: 1.25rem;
     font-weight: 600;
   }
+}
+.rotate-180 {
+  transform: rotate(180deg);
+  transition: 0.2s linear;
 }
 </style>

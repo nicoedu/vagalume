@@ -31,15 +31,15 @@
 </template>
 
 <script>
-import Api from "../api/handler";
-import Cookies from "js-cookie";
+import Api from '../api/handler';
+import Cookies from 'js-cookie';
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       formValues: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       },
       error: false
     };
@@ -47,19 +47,19 @@ export default {
   methods: {
     submitForm() {
       Api()
-        .post("/login", this.formValues)
+        .post('/login', this.formValues)
         .then(response => {
           if (response.data.success) {
-            Cookies.set("token", response.data.token);
-            this.$router.push("/");
+            Cookies.set('token', response.data.token);
+            this.$router.push('/');
           } else {
             this.error = true;
-            this.formValues.password = "";
+            this.formValues.password = '';
           }
         })
         .catch(() => {
           this.error = true;
-          this.formValues.password = "";
+          this.formValues.password = '';
         });
     }
   }

@@ -12,8 +12,9 @@
   background-color: #eeeeee;
   padding: 0;
   margin: 0;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
 }
 body {
   margin: 0;

@@ -1,14 +1,14 @@
 <script>
-import SidebarAvatar from "./SidebarAvatar";
-import SidebarLink from "./SidebarLink";
-import { collapsed, toggleSidebar, sidebarWidth } from "./state";
+import SidebarAvatar from './SidebarAvatar';
+import SidebarLink from './SidebarLink';
+import { collapsed, toggleSidebar, sidebarWidth } from './state';
 
 export default {
   props: {},
   components: { SidebarLink, SidebarAvatar },
   setup() {
     return { collapsed, toggleSidebar, sidebarWidth };
-  },
+  }
 };
 </script>
 
