@@ -18,13 +18,13 @@ export default {
       <img alt="Vue logo" src="../../assets/logo.png" />
     </div>
     <SidebarAvatar to="/profile">Username</SidebarAvatar>
-
-    <SidebarLink to="/" icon="fas fa-home">Home</SidebarLink>
-    <SidebarLink to="/404" icon="fas fa-columns">Dashboard</SidebarLink>
-    <SidebarLink to="/404" icon="fas fa-chart-bar">Analytics</SidebarLink>
-    <SidebarLink to="/404" icon="fas fa-users">Friends</SidebarLink>
-    <SidebarLink to="/404" icon="fas fa-image">Images</SidebarLink>
-
+    <SidebarLink to="/404" icon="fas fa-users">Funcionários</SidebarLink>
+    <SidebarLink to="/404" icon="fas fa-cog">Configurações</SidebarLink>
+    <SidebarLink to="/" icon="fas fa-eye">Visão Geral</SidebarLink>
+    <SidebarLink to="/404" icon="fas fa-clipboard-list">Processos</SidebarLink>
+    <SidebarLink to="/404" icon="fas fa-film">Media</SidebarLink>
+    <SidebarLink to="/404" icon="fas fa-mobile-alt">Aparelhos</SidebarLink>
+    <SidebarLink to="/404" icon="fas fa-wifi">Conexão</SidebarLink>
     <span
       class="collapse-icon-wrapper"
       :class="{ 'rotate-180': collapsed }"
@@ -67,10 +67,11 @@ export default {
 
   .logo-background {
     background-color: var(--sidebar-logo-bg-color);
+    height: auto;
     transition: 0.3s ease;
   }
   img {
-    margin: 0.5rem 0;
+    margin-bottom: 0.5rem;
     width: 80%;
     height: 80%;
   }

@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Api from '../api/handler';
+import Api from '../utils/apiHandler';
 import Cookies from 'js-cookie';
 export default {
   name: 'Login',
@@ -48,7 +48,7 @@ export default {
     submitForm() {
       Api()
         .post('/login', this.formValues)
-        .then(response => {
+        .then((response) => {
           if (response.data.success) {
             Cookies.set('token', response.data.token);
             this.$router.push('/');
@@ -71,7 +71,7 @@ export default {
   width: 100%;
   padding: 0;
   margin: 0;
-  background: url(../assets/background.jpg) no-repeat center;
+  background: url(../assets/background.jpg) no-repeat center center fixed;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -113,7 +113,7 @@ input {
 button {
   color: white;
   background-color: #7957d5;
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 7px 15px;
   border-width: 0;
   font-size: 1rem;

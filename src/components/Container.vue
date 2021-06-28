@@ -25,14 +25,6 @@ import { sidebarWidth } from '../components/sidebar/state';
 export default {
   props: ['name'],
   components: { Sidebar },
-  data() {
-    return { clients: [] };
-  },
-  methods: {
-    toClient(client) {
-      this.$router.push(`/client/${client.id}`);
-    }
-  },
   setup() {
     return { sidebarWidth };
   }
@@ -43,7 +35,14 @@ export default {
 .background {
   padding: 1rem 2rem;
 }
+@media (max-width: 500px) {
+  .background {
+    padding: 0.8rem 0;
+  }
+}
 .wrapper {
+  max-width: 1600px;
+  overflow: auto;
   background-color: white;
   box-shadow: -1px 1px 5px 1px rgba(125, 125, 125, 1);
 }

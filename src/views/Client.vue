@@ -5,7 +5,7 @@
       <Loader />
     </div>
     <div v-else class="graph-wrapper">
-      <Chart :chartdata="graphData" />
+      <Chart :chartdata="graphData" :options="options" />
     </div>
   </Container>
 </template>
@@ -14,21 +14,40 @@
 import Container from '../components/Container.vue';
 import Chart from '../components/Chart.vue';
 import Loader from '../components/Loader.vue';
-import Api from '../api/handler';
+import Api from '../utils/apiHandler';
+import { logout } from '../utils/auth';
+import { getHoursGraphAxis } from '../utils/graphUtils';
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'Client',
   components: { Container, Chart, Loader },
   data() {
-    return { graphData: null, name: '' };
+    return { graphData: null, options: {}, name: '' };
   },
   mounted() {
     this.name = this.$route.query.name;
     Api()
       .get(`/get_client_data/${this.$route.params.id}`)
-      .then(response => {
+      .then((response) => {
+        this.options = {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+            display: false
+          },
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  suggestedMin: 0,
+                  suggestedMax: Math.max(...response.data.data) + 1
+                }
+              }
+            ]
+          }
+        };
         this.graphData = {
-          labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+          labels: getHoursGraphAxis(),
           datasets: [
             {
               data: response.data.data,
@@ -38,6 +57,10 @@ export default defineComponent({
             }
           ]
         };
+      })
+      .catch(() => {
+        logout();
+        this.$router.replace('/login');
       });
   }
 });

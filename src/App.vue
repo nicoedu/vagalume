@@ -3,6 +3,13 @@
 </template>
 
 <style lang="scss">
+html,
+body {
+  min-height: 100% !important;
+  min-width: 100% !important;
+  height: 100%;
+  margin: 0;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,8 +22,5 @@
   min-height: 100vh;
   height: 100%;
   width: 100%;
-}
-body {
-  margin: 0;
 }
 </style>

@@ -27,7 +27,8 @@
 <script>
 import Container from '../components/Container.vue';
 import Loader from '../components/Loader.vue';
-import Api from '../api/handler';
+import Api from '../utils/apiHandler';
+import { logout } from '../utils/auth';
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'Home',
@@ -52,8 +53,12 @@ export default defineComponent({
   mounted() {
     Api()
       .get('/get_clients')
-      .then(response => {
+      .then((response) => {
         this.clients = response.data.clients;
+      })
+      .catch(() => {
+        logout();
+        this.$router.replace('/login');
       });
   }
 });
@@ -61,6 +66,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .title {
+  margin-top: 0.2rem;
   padding-left: 1.5rem;
 }
 .loader-wrapper {
@@ -82,13 +88,14 @@ export default defineComponent({
 .client-card {
   cursor: pointer;
   margin: 0;
-  padding-left: 1.5rem;
+  padding: 1rem 0 1rem 1.5rem;
   border-top-width: 1px;
   border-top: 1px solid #c7c7c7;
 
   .client-title {
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 500;
+    margin: 0;
   }
 }
 .rotate-180 {
